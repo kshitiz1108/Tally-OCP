@@ -5,13 +5,12 @@ const AllContests = () => {
   const [contests, setContests] = useState([]);
 
   useEffect(() => {
-    // Simulate API call with dummy data
     const dummyContests = [
       {
         _id: '1',
         title: 'Live Coding Challenge',
         start_time: new Date(new Date().getTime() - 30 * 60000).toISOString(), // Started 30 minutes ago
-        duration: 60, // 60 minutes
+        duration: 60, 
         problems: [
           { problem: { title: 'Problem 1' }, score: 100 },
           { problem: { title: 'Problem 2' }, score: 150 },
@@ -22,7 +21,7 @@ const AllContests = () => {
         _id: '2',
         title: 'Future Hackathon',
         start_time: new Date(new Date().getTime() + 120 * 60000).toISOString(), // Starts in 2 hours
-        duration: 180, // 180 minutes
+        duration: 180,
         problems: [
           { problem: { title: 'Problem 3' }, score: 200 },
           { problem: { title: 'Problem 4' }, score: 250 },
@@ -44,7 +43,7 @@ const AllContests = () => {
         _id: '4',
         title: 'Upcoming Code Sprint',
         start_time: new Date(new Date().getTime() + 60 * 60000).toISOString(), // Starts in 1 hour
-        duration: 120, // 120 minutes
+        duration: 120, 
         problems: [
           { problem: { title: 'Problem 7' }, score: 150 },
           { problem: { title: 'Problem 8' }, score: 200 },
@@ -53,9 +52,7 @@ const AllContests = () => {
       },
     ];
 
-    // Simulate API call delay
     setTimeout(() => {
-      // Sort contests so that live contests come first
       const now = new Date();
       const sortedContests = dummyContests.sort((a, b) => {
         const aStartTime = new Date(a.start_time);
@@ -66,11 +63,11 @@ const AllContests = () => {
         const aIsLive = aStartTime <= now && now <= aEndTime;
         const bIsLive = bStartTime <= now && now <= bEndTime;
 
-        return bIsLive - aIsLive; // Sort live contests to the top
+        return bIsLive - aIsLive; 
       });
 
       setContests(sortedContests);
-    }, 500); // Simulate 0.5 second API call delay
+    }, 500);
   }, []);
 
   return (
