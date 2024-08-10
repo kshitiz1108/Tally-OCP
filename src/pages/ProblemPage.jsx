@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Text, VStack, Badge, Button, Input, Textarea, HStack,
+  Box, Text, VStack, Badge, Button, Input, Textarea, HStack, Divider,
 } from '@chakra-ui/react';
 import Codeeditor from '../components/codeeditor';
 
@@ -66,29 +66,40 @@ const ProblemPage = () => {
   };
 
   return (
-    <>
-      <Box p={5}>
+    <Box minH="100vh" bgGradient="linear(to-r, #0f0a19, #1b1b2f)" color="gray.300" px={6} py={8}>
+      <Box bg="gray.800" p={8} borderRadius="md" shadow="md" maxW="4xl" mx="auto">
         {problem && (
           <>
-            <Text fontSize="2xl" fontWeight="bold">{problem.title}</Text>
-            <Text mt={4}>{problem.desc}</Text>
-            <VStack align="start" mt={4} spacing={3}>
-              <Text>Constraints:</Text>
-              <pre>{problem.constraints}</pre>
-              <Text>Time Limit: {problem.time_limit} second(s)</Text>
-              <Text>Memory Limit: {problem.memory_limit} MB</Text>
-              <Text>Correct Submissions: {problem.correct_submissions}</Text>
-              <Text>Wrong Submissions: {problem.wrong_submissions}</Text>
-              <Text>Likes: {problem.likes}</Text>
-              {problem.is_public ? <Badge colorScheme="green">Public</Badge> : <Badge colorScheme="red">Private</Badge>}
+            <Text fontSize="3xl" fontWeight="bold" color="teal.300" mb={4}>{problem.title}</Text>
+            <Text fontSize="lg" mb={6}>{problem.desc}</Text>
 
-              <Box mt={4} width="100%">
-                <Text fontSize="lg" fontWeight="bold">Test Cases:</Text>
+            <VStack align="start" spacing={3}>
+              <Text fontSize="md" color="teal.400">Constraints:</Text>
+              <Box bg="gray.900" p={4} borderRadius="md" width="100%">
+                <Text whiteSpace="pre-wrap">{problem.constraints}</Text>
+              </Box>
+              <HStack spacing={6} mt={4}>
+                <Text>Time Limit: <strong>{problem.time_limit} second(s)</strong></Text>
+                <Text>Memory Limit: <strong>{problem.memory_limit} MB</strong></Text>
+              </HStack>
+              <HStack spacing={6} mt={4}>
+                <Text>Correct Submissions: <strong>{problem.correct_submissions}</strong></Text>
+                <Text>Wrong Submissions: <strong>{problem.wrong_submissions}</strong></Text>
+              </HStack>
+              <Text mt={2}>Likes: <strong>{problem.likes}</strong></Text>
+              {problem.is_public ? (
+                <Badge colorScheme="green" mt={2}>Public</Badge>
+              ) : (
+                <Badge colorScheme="red" mt={2}>Private</Badge>
+              )}
+
+              <Box mt={6} width="100%">
+                <Text fontSize="lg" fontWeight="bold" color="teal.400">Test Cases:</Text>
                 {problem.testcases.map((testcase, index) => (
-                  <Box key={index} p={3} borderWidth="1px" borderRadius="md" mt={2}>
+                  <Box key={index} p={4} borderWidth="1px" borderRadius="md" mt={4} bg="gray.700">
                     <HStack justifyContent="space-between">
                       <Text fontWeight="semibold">Test Case {index + 1}:</Text>
-                      <Button size="sm" onClick={() => handleEditTestCase(index)}>Edit</Button>
+                      <Button size="sm" colorScheme="teal" variant="outline" onClick={() => handleEditTestCase(index)}>Edit</Button>
                     </HStack>
                     <Text mt={2}><strong>Input:</strong> {testcase.input}</Text>
                     <Text mt={1}><strong>Expected Output:</strong> {testcase.output}</Text>
@@ -96,30 +107,40 @@ const ProblemPage = () => {
                 ))}
               </Box>
 
-              <Box mt={6}>
-                <Text fontSize="lg" fontWeight="bold">
+              <Box mt={6} width="100%">
+                <Text fontSize="lg" fontWeight="bold" color="teal.400">
                   {editingIndex !== null ? 'Edit Test Case' : 'Add New Test Case'}
                 </Text>
                 <Input
-                  mt={2}
+                  mt={3}
                   placeholder="Input"
                   value={newTestCase.input}
                   onChange={(e) => setNewTestCase({ ...newTestCase, input: e.target.value })}
+                  bg="gray.700"
+                  color="white"
+                  _placeholder={{ color: 'gray.400' }}
+                  focusBorderColor="teal.400"
+                  borderRadius="md"
                 />
                 <Textarea
-                  mt={2}
+                  mt={3}
                   placeholder="Expected Output"
                   value={newTestCase.output}
                   onChange={(e) => setNewTestCase({ ...newTestCase, output: e.target.value })}
+                  bg="gray.700"
+                  color="white"
+                  _placeholder={{ color: 'gray.400' }}
+                  focusBorderColor="teal.400"
+                  borderRadius="md"
                 />
-                <HStack spacing={3} mt={2}>
+                <HStack spacing={3} mt={3}>
                   {editingIndex !== null ? (
                     <>
-                      <Button colorScheme="teal" onClick={handleSaveTestCase}>Save</Button>
-                      <Button colorScheme="gray" onClick={handleCancelEdit}>Cancel</Button>
+                      <Button colorScheme="teal" onClick={handleSaveTestCase} borderRadius="md">Save</Button>
+                      <Button colorScheme="gray" onClick={handleCancelEdit} borderRadius="md">Cancel</Button>
                     </>
                   ) : (
-                    <Button colorScheme="teal" onClick={handleAddTestCase}>Add Test Case</Button>
+                    <Button colorScheme="teal" onClick={handleAddTestCase} borderRadius="md">Add Test Case</Button>
                   )}
                 </HStack>
               </Box>
@@ -127,13 +148,16 @@ const ProblemPage = () => {
           </>
         )}
       </Box>
+
       {problem && (
-        <Codeeditor
-          problemId={problem._id}
-          testcases={problem.testcases}
-        />
+        <Box mt={8}>
+          <Codeeditor
+            problemId={problem._id}
+            testcases={problem.testcases}
+          />
+        </Box>
       )}
-    </>
+    </Box>
   );
 };
 

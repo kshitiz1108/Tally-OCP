@@ -30,7 +30,7 @@ function App() {
     <Route path='/problem/:problemid' element={<ProblemPage/>}/>
     <Route path='/create-contest' element={<CreateContest/>}/>
     <Route path='/all-contests' element={<AllContests/>}/>
-    <Route path='/contest/:contest_id' element={<ContestPage/>}/>
+    <Route path='/contest/:contestId' element={<ContestPage/>}/>
     <Route path='/code-playground' element={<CodePlayground/>}/>
     </Routes>
   </Box>
