@@ -33,7 +33,7 @@ const AllContests = () => {
         _id: '3',
         title: 'Ongoing Contest',
         start_time: new Date(new Date().getTime() - 10 * 60000).toISOString(), // Started 10 minutes ago
-        duration: 45, // 45 minutes
+        duration: 45,
         problems: [
           { problem: { title: 'Problem 5' }, score: 50 },
           { problem: { title: 'Problem 6' }, score: 100 },

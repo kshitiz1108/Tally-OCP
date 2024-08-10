@@ -14,6 +14,7 @@ import Register from './pages/Register'
 import AddProblem from './pages/AddProblem'
 import AllProblem from './pages/AllProblem'
 import ProblemPage from './pages/ProblemPage'
+import CreateContest from './pages/CreateContest'
 
 function App() {
   
@@ -27,6 +28,7 @@ function App() {
     <Route path='/add-problem' element={<AddProblem/>}/>
     <Route path='/all-problem' element={<AllProblem/>}/>
     <Route path='/problem/:problemid' element={<ProblemPage/>}/>
+    <Route path='/create-contest' element={<CreateContest/>}/>
     <Route path='/all-contests' element={<AllContests/>}/>
     <Route path='/contest/:contest_id' element={<ContestPage/>}/>
     <Route path='/code-playground' element={<CodePlayground/>}/>
