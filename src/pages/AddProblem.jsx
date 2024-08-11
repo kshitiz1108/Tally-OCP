@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 
 const AddProblem = () => {
   const [title, setTitle] = useState('');
@@ -50,7 +50,7 @@ const AddProblem = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const creatorId = localStorage.getItem('token'); // Fetch creator_id from local storage
+    const creatorId = '66b74a322f11130cbdb2a188'; 
 
     const problemData = {
       title,
@@ -67,7 +67,7 @@ const AddProblem = () => {
     try {
       await axios.post('https://tally-ocp-backend.onrender.com/problems/add', problemData);
       console.log('Problem Data:', problemData);
-      navigate('/problems'); 
+      navigate('/all-problem'); 
     } catch (error) {
       console.error('Error submitting problem:', error);
     }
@@ -187,8 +187,8 @@ const AddProblem = () => {
             Add Code Stub
           </Button>
 
-          <Button colorScheme="teal" type="submit">
-            Submit Problem
+          <Button type="submit" colorScheme="teal">
+            Add Problem
           </Button>
         </Stack>
       </form>

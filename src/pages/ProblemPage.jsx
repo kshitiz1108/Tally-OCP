@@ -1,37 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
-  Box, Text, VStack, Badge, Button, Input, Textarea, HStack, Divider,
+  Box, Text, VStack, Badge, Button, Input, Textarea, HStack,
 } from '@chakra-ui/react';
-import Codeeditor from '../components/codeeditor';
+import { useParams } from 'react-router-dom';
+import Codeeditor from '../compo/CodeEditor';
 
 const ProblemPage = () => {
-  const [problem, setProblem] = useState(null);
+  const { id } = useParams();
+  const [problem, setProblem] = useState({ testcases: [] }); 
   const [editingIndex, setEditingIndex] = useState(null);
   const [newTestCase, setNewTestCase] = useState({ input: '', output: '' });
 
   useEffect(() => {
-    // Simulate fetching the problem with dummy data
-    const dummyProblem = {
-      _id: '1',
-      title: 'Two Sum',
-      desc: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to the target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.',
-      constraints: '2 <= nums.length <= 10^4\n-10^9 <= nums[i] <= 10^9\n-10^9 <= target <= 10^9\nOnly one valid answer exists.',
-      testcases: [
-        { input: '[2, 7, 11, 15], target = 9', output: '[0, 1]' },
-        { input: '[3, 2, 4], target = 6', output: '[1, 2]' },
-      ],
-      time_limit: 1, // 1 second
-      memory_limit: 256, // 256 MB
-      is_public: true,
-      wrong_submissions: 50,
-      correct_submissions: 150,
-      code_stubs: ['function twoSum(nums, target) { /* your code here */ }'],
-      creator_id: 'user123',
-      likes: 42,
+    const fetchProblem = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/problems/problems/${id}`);
+        console.log("Fetched problem:", response.data.problem);
+        setProblem(response.data.problem);
+      } catch (error) {
+        console.error("Error fetching problem:", error);
+      }
     };
 
-    setProblem(dummyProblem);
-  }, []);
+    fetchProblem();
+  }, [id]);
 
   const handleAddTestCase = () => {
     if (newTestCase.input && newTestCase.output) {
@@ -68,7 +61,7 @@ const ProblemPage = () => {
   return (
     <Box minH="100vh" bgGradient="linear(to-r, #0f0a19, #1b1b2f)" color="gray.300" px={6} py={8}>
       <Box bg="gray.800" p={8} borderRadius="md" shadow="md" maxW="4xl" mx="auto">
-        {problem && (
+        {problem ? (
           <>
             <Text fontSize="3xl" fontWeight="bold" color="teal.300" mb={4}>{problem.title}</Text>
             <Text fontSize="lg" mb={6}>{problem.desc}</Text>
@@ -95,16 +88,20 @@ const ProblemPage = () => {
 
               <Box mt={6} width="100%">
                 <Text fontSize="lg" fontWeight="bold" color="teal.400">Test Cases:</Text>
-                {problem.testcases.map((testcase, index) => (
-                  <Box key={index} p={4} borderWidth="1px" borderRadius="md" mt={4} bg="gray.700">
-                    <HStack justifyContent="space-between">
-                      <Text fontWeight="semibold">Test Case {index + 1}:</Text>
-                      <Button size="sm" colorScheme="teal" variant="outline" onClick={() => handleEditTestCase(index)}>Edit</Button>
-                    </HStack>
-                    <Text mt={2}><strong>Input:</strong> {testcase.input}</Text>
-                    <Text mt={1}><strong>Expected Output:</strong> {testcase.output}</Text>
-                  </Box>
-                ))}
+                {problem.testcases && problem.testcases.length > 0 ? (
+                  problem.testcases.map((testcase, index) => (
+                    <Box key={index} p={4} borderWidth="1px" borderRadius="md" mt={4} bg="gray.700">
+                      <HStack justifyContent="space-between">
+                        <Text fontWeight="semibold">Test Case {index + 1}:</Text>
+                        <Button size="sm" colorScheme="teal" variant="outline" onClick={() => handleEditTestCase(index)}>Edit</Button>
+                      </HStack>
+                      <Text mt={2}><strong>Input:</strong> {testcase.input}</Text>
+                      <Text mt={1}><strong>Expected Output:</strong> {testcase.expected_output}</Text>
+                    </Box>
+                  ))
+                ) : (
+                  <Text>No test cases available.</Text>
+                )}
               </Box>
 
               <Box mt={6} width="100%">
@@ -146,6 +143,8 @@ const ProblemPage = () => {
               </Box>
             </VStack>
           </>
+        ) : (
+          <Text>Loading problem data...</Text>
         )}
       </Box>
 

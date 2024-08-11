@@ -44,8 +44,10 @@ const CreateContest = () => {
   const handleCreateProblem = async () => {
     if (selectedProblems.length < 4) {
       try {
-        const response = await axios.post('https://tally-ocp-backend.onrender.com/problem/add', newProblem);
-        const createdProblem = response.data;
+        console.log(newProblem);
+        const response = await axios.post('https://tally-ocp-backend.onrender.com/problems/add', newProblem);
+        console.log(response.data.problem);
+        const createdProblem = response.data.problem;
         setSelectedProblems([...selectedProblems, createdProblem]);
         setNewProblem({
           title: '',
@@ -71,6 +73,26 @@ const CreateContest = () => {
   const handleRemoveProblem = (index) => {
     const updatedProblems = selectedProblems.filter((_, i) => i !== index);
     setSelectedProblems(updatedProblems);
+  };
+
+  const handleCreateContest = async () => {
+    try {
+      const contestData = {
+        title,
+        start_time: startTime,
+        duration,
+        problems: selectedProblems.map(problem => ({ problem: problem._id, score: 100 })), // Assuming a default score
+      };
+
+      await axios.post('http://localhost:3000/contests/add', contestData);
+      setTitle('');
+      setStartTime('');
+      setDuration('');
+      setSelectedProblems([]);
+      setStep(1);
+    } catch (error) {
+      console.error('Error creating contest:', error);
+    }
   };
 
   return (
@@ -208,7 +230,7 @@ const CreateContest = () => {
             colorScheme="teal"
             size="lg"
             w="full"
-            onClick={() => console.log('Contest created with:', { title, startTime, duration, selectedProblems })}
+            onClick={handleCreateContest}
           >
             Create Contest
           </Button>

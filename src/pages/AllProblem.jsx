@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, VStack, HStack, Badge, Spinner, Button, Flex, Icon } from '@chakra-ui/react';
 import axios from 'axios';
-import { FaThumbsUp } from 'react-icons/fa';
+import { FaThumbsUp, FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const AllProblem = () => {
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -31,8 +33,27 @@ const AllProblem = () => {
     );
   }
 
+  const handleSolveProblem = (problemId) => {
+    navigate(`/problem/${problemId}`);
+  };
+
+  const handleAddProblem = () => {
+    navigate('/add-problem');
+  };
+
   return (
     <VStack spacing={6} py={8} px={4} maxW="5xl" mx="auto" bgGradient="linear(to-r, #0f0a19, #1b1b2f)" borderRadius="md" shadow="xl">
+      <HStack spacing={4} mb={6} w="100%" justify="space-between">
+        <Text fontSize="3xl" fontWeight="bold" color="white">All Problems</Text>
+        <Button
+          colorScheme="teal"
+          leftIcon={<FaPlus />}
+          onClick={handleAddProblem}
+        >
+          Add Problem
+        </Button>
+      </HStack>
+
       {problems.map(problem => (
         <Box key={problem._id} p={6} bg="gray.800" borderRadius="md" shadow="md" width="100%" _hover={{ shadow: "lg" }} transition="all 0.3s ease">
           <HStack justifyContent="space-between">
@@ -50,7 +71,7 @@ const AllProblem = () => {
             <Text color="gray.400">Wrong Submissions: <strong>{problem.wrong_submissions}</strong></Text>
           </HStack>
           <HStack mt={6} justifyContent="space-between">
-            <Button size="sm" colorScheme="teal" variant="outline" borderRadius="md">Solve Problem</Button>
+            <Button size="sm" colorScheme="teal" variant="outline" borderRadius="md" onClick={() => handleSolveProblem(problem._id)}>Solve Problem</Button>
             <HStack>
               <Icon as={FaThumbsUp} color="teal.400" />
               <Text color="gray.400">{problem.likes}</Text>

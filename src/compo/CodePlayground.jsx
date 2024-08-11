@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Input, Button, VStack, Text, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react';
-import Codeeditor from '../components/codeeditor';
-import Output from '../components/Output'; 
+import Codeeditor from './CodeEditor';
 
 const encodeBase64 = (string) => {
   return btoa(unescape(encodeURIComponent(string)));
@@ -10,7 +9,8 @@ const encodeBase64 = (string) => {
 const CodePlayground = () => {
   const [testcaseInput, setTestcaseInput] = useState("");
   const [code, setCode] = useState("");
-  const [showOutput, setShowOutput] = useState(false); 
+  const [showOutput, setShowOutput] = useState(false);
+
 
  
 

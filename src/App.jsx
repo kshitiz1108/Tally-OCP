@@ -27,7 +27,7 @@ function App() {
     <Route path='/register' element={<Register/>}/>
     <Route path='/add-problem' element={<AddProblem/>}/>
     <Route path='/all-problem' element={<AllProblem/>}/>
-    <Route path='/problem/:problemid' element={<ProblemPage/>}/>
+    <Route path='/problem/:id' element={<ProblemPage/>}/>
     <Route path='/create-contest' element={<CreateContest/>}/>
     <Route path='/all-contests' element={<AllContests/>}/>
     <Route path='/contest/:contestId' element={<ContestPage/>}/>

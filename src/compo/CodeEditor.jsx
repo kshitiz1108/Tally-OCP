@@ -26,7 +26,6 @@ const Codeeditor = ({ problemId, testcases }) => {
     };
 
     console.log('Data being saved:', dataToSave);
-
     return dataToSave;
   };
 
